@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mastward — sovereign mission-control for your AI coding agents</title>
+<meta name="description" content="Run Claude Code, Codex, Gemini or local models on your own machine and steer them from any device. Source never leaves your infrastructure. Vendor-neutral, no cloud relay, own it not rent it." />
+<!-- Sovereign: no external fonts, no CDNs, no analytics, no trackers. One self-contained file. -->
+<style>
+  :root { --bg:#0a0a0c; --card:#141417; --line:rgba(255,255,255,.07); --txt:#f4f4f5; --dim:#a1a1aa; --primary:#ff9d00; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--txt); font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+  a { color:inherit; text-decoration:none; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 24px; }
+  .pill { display:inline-block; font-size:12px; font-weight:800; letter-spacing:.15em; text-transform:uppercase; color:var(--primary); background:rgba(255,157,0,.08); border:1px solid rgba(255,157,0,.2); padding:8px 16px; border-radius:999px; }
+  h1 { font-size:clamp(38px,6vw,68px); font-weight:900; letter-spacing:-.02em; line-height:1.05; margin:28px 0 20px; }
+  h1 .g { color:var(--primary); }
+  .lede { font-size:clamp(17px,2.4vw,22px); color:var(--dim); max-width:680px; }
+  header.hero { padding:90px 0 60px; text-align:center; background:radial-gradient(1200px 500px at 50% -10%, rgba(255,157,0,.10), transparent 60%); }
+  .cta { display:flex; gap:14px; flex-wrap:wrap; justify-content:center; margin:40px 0 14px; }
+  .btn { font-weight:800; font-size:15px; padding:16px 28px; border-radius:16px; border:1px solid var(--line); transition:.2s; cursor:pointer; display:inline-flex; align-items:center; gap:10px; }
+  .btn.primary { background:var(--primary); color:#000; border-color:var(--primary); }
+  .btn.primary:hover { box-shadow:0 0 36px rgba(255,157,0,.35); transform:translateY(-1px); }
+  .btn.ghost:hover { background:rgba(255,255,255,.06); }
+  .note { font-size:13px; color:var(--dim); }
+  section { padding:64px 0; border-top:1px solid var(--line); }
+  h2 { font-size:clamp(26px,3.5vw,38px); font-weight:900; letter-spacing:-.01em; margin-bottom:14px; }
+  .sub { color:var(--dim); margin-bottom:36px; max-width:620px; }
+  .grid { display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:22px; padding:30px; }
+  .card h3 { font-size:18px; font-weight:800; margin-bottom:8px; }
+  .card p { color:var(--dim); font-size:15px; }
+  .ico { width:44px; height:44px; border-radius:12px; background:rgba(255,157,0,.1); display:flex; align-items:center; justify-content:center; margin-bottom:16px; font-size:22px; }
+  .steps { counter-reset:s; display:grid; gap:18px; }
+  .step { display:flex; gap:18px; align-items:flex-start; }
+  .step .n { counter-increment:s; flex:0 0 40px; height:40px; border-radius:999px; background:rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; font-weight:900; }
+  .step .n::before { content:counter(s); }
+  .price { display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+  .tier { background:var(--card); border:1px solid var(--line); border-radius:22px; padding:32px; display:flex; flex-direction:column; }
+  .tier.pro { border-color:rgba(255,157,0,.35); box-shadow:0 0 50px rgba(255,157,0,.06); }
+  .tier .amt { font-size:34px; font-weight:900; margin:6px 0 4px; }
+  .tier ul { list-style:none; margin:18px 0; display:grid; gap:10px; }
+  .tier li { color:var(--dim); font-size:14px; padding-left:24px; position:relative; }
+  .tier li::before { content:"✓"; color:var(--primary); position:absolute; left:0; font-weight:900; }
+  footer { padding:50px 0; border-top:1px solid var(--line); color:var(--dim); font-size:13px; text-align:center; }
+  footer a { color:var(--primary); }
+  .mono { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+  /* hero terminal mockup */
+  .term { max-width:760px; margin:46px auto 0; border-radius:16px; overflow:hidden; border:1px solid var(--line); box-shadow:0 40px 120px -30px rgba(255,157,0,.25), 0 20px 60px -20px rgba(0,0,0,.6); text-align:left; background:#0d0d10; }
+  .term-bar { display:flex; align-items:center; gap:8px; padding:12px 16px; background:#16161a; border-bottom:1px solid var(--line); }
+  .term-bar i { width:12px; height:12px; border-radius:50%; display:inline-block; }
+  .term-bar .r{background:#ff5f57} .term-bar .y{background:#febc2e} .term-bar .g{background:#28c840}
+  .term-bar span { margin-left:10px; font:12px ui-monospace,monospace; color:var(--dim); }
+  .term-body { padding:22px 24px; font:13.5px/1.85 ui-monospace,SFMono-Regular,Menlo,monospace; color:#d4d4d8; white-space:pre-wrap; min-height:230px; }
+  .term-body .p{color:var(--primary)} .term-body .d{color:#71717a} .term-body .g2{color:#5fd08a} .term-body .b{color:#60a5fa} .term-body .w{color:#f4f4f5}
+  .cursor { display:inline-block; width:8px; height:16px; background:var(--primary); vertical-align:text-bottom; animation:blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50%{opacity:0} }
+  .chips { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:34px; }
+  .chip { font-size:12px; font-weight:700; color:var(--dim); border:1px solid var(--line); border-radius:999px; padding:8px 14px; }
+  .chip b { color:var(--primary); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="pill">Run any AI agent · On your machine · From any device</span>
+    <h1>Mission-control for your<br><span class="g">AI coding agents.</span> Sovereign.</h1>
+    <p class="lede" style="margin:0 auto;">Claude Code, Codex, Gemini, your local models — run them on your own computer and steer them from your phone, tablet or laptop. Your source code <b style="color:#f4f4f5">never leaves your infrastructure</b>. No vendor lock-in. No cloud relay. Own it, don't rent it.</p>
+    <div class="cta">
+      <a id="dl-primary" class="btn primary" href="#download">⬇ Get Mastward</a>
+      <a class="btn ghost" href="./b2b.html">For teams &amp; regulated orgs →</a>
+    </div>
+    <p class="note">The phone-controls-the-agent pattern Anthropic &amp; OpenAI just shipped — but vendor-neutral, and on hardware you own.</p>
+    <!-- auto-detected, device-aware guidance — populated by the script at the foot of the page -->
+    <div id="smart-banner" style="max-width:640px;margin:26px auto 0;padding:20px 22px;border:1px solid rgba(255,157,0,.25);background:rgba(255,157,0,.05);border-radius:18px;text-align:left;font-size:14px;line-height:1.6;display:none"></div>
+
+    <div class="term">
+      <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span>mastward — your-mac · driven from iPhone</span></div>
+      <div class="term-body"><span class="d"># on your machine, controlled from your phone over your own network</span>
+<span class="p">~/acme-api</span> <span class="w">$</span> claude
+<span class="g2">●</span> Claude Code <span class="d">— reading repo, running tests…</span>
+  <span class="b">✓</span> 42 files indexed   <span class="b">✓</span> 218 tests passed
+  <span class="w">Proposed fix:</span> handle null token in <span class="p">auth/middleware.ts</span>  <span class="d">[approve on phone ↗]</span>
+
+<span class="p">~/acme-api</span> <span class="w">$</span> <span class="d"># switch agents — no vendor lock-in</span>
+<span class="p">~/acme-api</span> <span class="w">$</span> gemini  <span class="d">·</span>  codex  <span class="d">·</span>  ollama (local)
+<span class="g2">●</span> <span class="w">source never left this machine</span><span class="cursor"></span></div>
+    </div>
+
+    <div class="chips">
+      <span class="chip">🛡️ <b>No cloud relay</b></span>
+      <span class="chip">🤖 <b>Any agent</b></span>
+      <span class="chip">📱 <b>Drive from your phone</b></span>
+      <span class="chip">💸 <b>Buy once</b></span>
+    </div>
+  </div>
+</header>
+
+<section id="why">
+  <div class="wrap">
+    <h2>Why it's different</h2>
+    <p class="sub">Anthropic and OpenAI just proved you want to drive your coding agent from your phone. Mastward does it without locking you to one vendor — or to anyone's cloud.</p>
+    <div class="grid">
+      <div class="card"><div class="ico">🤖</div><h3>Any agent, one cockpit</h3><p>Claude Code, Codex, Gemini, Aider, your local Ollama models — launch, switch and supervise them all from one place. Not tied to a single vendor's app.</p></div>
+      <div class="card"><div class="ico">🏛️</div><h3>Source never leaves</h3><p>The agent runs on <i>your</i> machine; your repository never touches a vendor's servers. The compliance answer cloud agents can't give.</p></div>
+      <div class="card"><div class="ico">🛡️</div><h3>No cloud relay</h3><p>Connections go straight from your phone to your own computer. Your sessions never pass through a server of ours.</p></div>
+      <div class="card"><div class="ico">🔑</div><h3>No account</h3><p>No sign-up, no telemetry, nothing phones home. Access is by per-device key you control — revoke a lost device instantly.</p></div>
+      <div class="card"><div class="ico">♾️</div><h3>Survives disconnect &amp; reboot</h3><p>Sessions keep running when you close the lid or drop signal — reattach with full scrollback, even after a restart.</p></div>
+      <div class="card"><div class="ico">🩹</div><h3>Fixes itself</h3><p>The built-in doctor checks everything on first launch and auto-repairs what it safely can. No terminal gymnastics to install.</p></div>
+      <div class="card"><div class="ico">📜</div><h3>Reusable scripts</h3><p>Every command you run is captured and one-tap reusable — turn anything you do into a saved script.</p></div>
+      <div class="card"><div class="ico">🧠</div><h3>Free Local AI ($0)</h3><p>Zero account needed: one tap sets up a private AI brain (Ollama + Qwen 2.5 + Local Agent) right on your computer for $0/month.</p></div>
+      <div class="card"><div class="ico">🤝</div><h3>Shared Screen &amp; Voice</h3><p>Co-browse a single window with a friend or teammate with built-in voice call and take-turns mouse/keyboard control.</p></div>
+      <div class="card"><div class="ico">📡</div><h3>All Devices &amp; Clipboard Hub</h3><p>Control your Mac, Windows PC, phones, and TVs from one screen — with instant copy &amp; paste across every device.</p></div>
+      <div class="card"><div class="ico">📷</div><h3>Live Capture</h3><p>Point your phone camera at receipts, serial plates, or documents; your computer reads and organises them privately.</p></div>
+      <div class="card"><div class="ico">💸</div><h3>Buy once, own forever</h3><p>No subscription. A one-time licence validates offline against a key — it never checks in with us.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>Install in one step</h2>
+    <p class="sub">No config files, no command line. Download, open, done — the app starts its own engine locally and asks only for the permissions it needs.</p>
+    <div class="steps">
+      <div class="step"><div class="n"></div><div><h3>Download &amp; open</h3><p>Grab the Mac or Windows installer below and open it. First launch starts everything for you and offers a plain-English guided tour.</p></div></div>
+      <div class="step"><div class="n"></div><div><h3>Approve permissions</h3><p>Your computer asks once for the access it needs (local network). The app explains why, in plain words.</p></div></div>
+      <div class="step"><div class="n"></div><div><h3>Add your phone</h3><p>Tap <b>Connect</b> on your phone and click <b>Allow</b> on your computer (or type the short pair code). Auto-doctor fixes anything that's off.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="download">
+  <div class="wrap">
+    <h2>Download (v1.3.0)</h2>
+    <p class="sub">One sovereign core across Mac, Windows, iPhone/iPad, and Android. Pick your platform.</p>
+    <div class="grid">
+      <div class="card"><div class="ico">🖥️</div><h3>Mac (Apple Silicon)</h3><p>Notarized self-contained app — no Node or setup required. Includes built-in signed updates.</p><p style="margin-top:14px"><a class="btn primary" href="https://github.com/AXD-dev01/mastward/releases/latest/download/Mastward_aarch64.dmg">⬇ Download .dmg (v1.3.0)</a></p></div>
+      <div class="card"><div class="ico">🪟</div><h3>Windows (x64)</h3><p>Self-contained Windows 10/11 installer (<code>.exe</code> &amp; <code>.msi</code>) — starts its own local engine automatically.</p><p style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn primary" href="https://github.com/AXD-dev01/mastward/releases/latest/download/Mastward_1.3.0_x64-setup.exe">⬇ Download .exe (v1.3.0)</a><a class="btn ghost" href="https://github.com/AXD-dev01/mastward/releases/latest/download/Mastward_1.3.0_x64_en-US.msi">.msi</a></p></div>
+      <div class="card"><div class="ico">📱</div><h3>iPhone &amp; iPad</h3><p>Native iOS build on TestFlight (v1.3.0), or open your computer's local link in Safari → Share → <b>Add to Home Screen</b>.</p><p style="margin-top:14px"><a class="btn ghost" href="https://github.com/AXD-dev01/mastward/releases/latest">iOS v1.3.0 Release →</a></p></div>
+      <div class="card"><div class="ico">🤖</div><h3>Android</h3><p>Install the native Android APK directly or join the Google Play testing track.</p><p style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn primary" href="https://github.com/AXD-dev01/mastward/releases/latest/download/app-release.apk">⬇ Download .apk (v1.3.0)</a><a class="btn ghost" href="https://play.google.com/apps/internaltest/4700810208802603887">Google Play</a></p></div>
+    </div>
+    <p class="note" style="margin-top:22px">All release artifacts and SHA-256 manifests are published on <a href="https://github.com/AXD-dev01/mastward/releases/tag/v1.3.0" style="color:var(--primary)">GitHub Release v1.3.0</a>.</p>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <h2>Pricing</h2>
+    <p class="sub">The private, no-cloud terminal is free forever. Pro unlocks power features — one payment, yours for good.</p>
+    <div class="price">
+      <div class="tier">
+        <span class="pill">Sovereign Free</span>
+        <div class="amt">$0 <span style="font-size:15px;color:var(--dim);font-weight:600">forever</span></div>
+        <ul>
+          <li>Full persistent terminal (survive disconnect &amp; reboot)</li>
+          <li>Free Local AI ($0/mo private model + agent setup)</li>
+          <li>Plain-English guided tour + mobile app over your network</li>
+          <li>1 host · up to 2 sessions · 1 device</li>
+        </ul>
+        <a class="btn ghost" href="#download" style="margin-top:auto">Get started</a>
+      </div>
+      <div class="tier pro">
+        <span class="pill">Sovereign Pro</span>
+        <div class="amt">~$49–99 <span style="font-size:15px;color:var(--dim);font-weight:600">one-time</span></div>
+        <ul>
+          <li>Everything in Free</li>
+          <li>Browser-native panes (split &amp; resize) + Wall view</li>
+          <li>Unlimited devices · All Devices hub · Clipboard hub</li>
+          <li>Shared Screen + voice call · Live Capture · AI toolbar</li>
+          <li>Buy by email · licence validates offline</li>
+        </ul>
+        <a class="btn primary" href="#buy" style="margin-top:auto">Buy once</a>
+      </div>
+    </div>
+    <p class="note" style="margin-top:22px"><a href="./b2b.html" style="color:var(--primary)">Team &amp; Enterprise</a> (self-hosted, audit log, SLA) — for regulated orgs whose source can't leave their infra.</p>
+  </div>
+</section>
+
+<section id="buy">
+  <div class="wrap" style="max-width:560px">
+    <h2 id="buy-h2">Buy Pro</h2>
+    <p class="sub" id="buy-sub">One payment, yours forever — no subscription. Pay by card, or ask us for payment details by email. Either way your licence key is emailed to the address you give here.</p>
+    <div class="card" style="padding:28px">
+      <div style="display:grid;gap:14px">
+        <input id="buy-email" type="email" placeholder="your@email.com" style="background:#0a0a0c;border:1px solid var(--line);border-radius:12px;padding:14px;color:var(--txt);font-size:15px;outline:none" />
+        <div id="buy-actions" style="display:grid;gap:10px">
+          <button id="buy-card" class="btn primary" style="justify-content:center">💳 Pay by card (AUD)</button>
+          <button id="buy-go" class="btn ghost" style="justify-content:center">Request licence by email</button>
+        </div>
+        <p id="buy-msg" class="note" style="margin:0"></p>
+      </div>
+      <div id="buy-manual" style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line)">
+        <p class="note" style="margin:0 0 8px"><b id="buy-manual-h" style="color:var(--txt)">Rather not use a card?</b></p>
+        <p class="note" style="margin:0">Email <a class="mono" style="color:var(--primary)" href="mailto:support@axdintelligence.com.au?subject=Buy%20Mastward%20Pro">support@axdintelligence.com.au</a> and we'll reply with payment details (PayID or crypto).</p>
+        <p class="note" style="margin:8px 0 0">Your licence key is delivered to the address you write from.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // First-party checkout — posts buy-intent to our own /api/order. No third-party, no tracker.
+  (function () {
+    var go = document.getElementById('buy-go'), em = document.getElementById('buy-email'), msg = document.getElementById('buy-msg');
+    if (!go) return;
+    go.addEventListener('click', function () {
+      var email = (em.value || '').trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg.textContent = 'Enter a valid email.'; msg.style.color = '#ef6f6f'; return; }
+      go.disabled = true; msg.textContent = 'Sending…'; msg.style.color = '';
+      fetch('/api/order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, tier: 'pro', method: (window.__MW_INTENT__ || 'payid'), platform: (window.__MW_DEVICE__ || 'unknown') }) })
+        .then(function (r) { return r.json(); })
+        .then(function (j) { msg.style.color = '#5fd08a'; msg.textContent = j.next || 'Got it — check your email.'; em.value = ''; })
+        .catch(function () { msg.style.color = '#ef6f6f'; msg.textContent = 'Could not reach the server — email support@axdintelligence.com.au instead.'; })
+        .finally(function () { go.disabled = false; });
+    });
+  })();
+</script>
+
+<script id="mw-card-checkout">
+/* MW_CARD_CHECKOUT_BEGIN — Bin/test-landing-checkout.mjs runs these exact bytes. Keep the markers. */
+  // CARD path — POST our own /api/checkout, then hand the buyer to Stripe's hosted page.
+  // No Stripe.js, no CDN, no tracker: the card details are only ever entered on Stripe's own domain,
+  // so this page never sees them and nothing third-party is loaded here.
+  (function () {
+    var go = document.getElementById('buy-card'),
+        em = document.getElementById('buy-email'),
+        msg = document.getElementById('buy-msg'),
+        manual = document.getElementById('buy-manual');
+    if (!go || !em || !msg) return;
+
+    var EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    var OPENING = 'Opening the secure payment page…';
+
+    function say(text, colour) { msg.textContent = text; msg.style.color = colour || ''; }
+
+    // Every card failure ends here. The manual PayID/crypto path still works, so point at it in
+    // plain words — but never submit it for them: nobody should get an order they didn't ask for.
+    function fallBackToEmail(why) {
+      say(why + ' Nothing has been charged. Use “Request licence by email” above and we\'ll reply '
+        + 'with payment details, or email support@axdintelligence.com.au.', '#ef6f6f');
+      if (manual) manual.style.borderColor = 'rgba(255,157,0,.45)';
+      go.disabled = false;
+    }
+
+    go.addEventListener('click', function () {
+      var email = (em.value || '').trim();
+      if (!EMAIL.test(email)) {
+        say('Enter a valid email first — your licence key is sent to that address.', '#ef6f6f');
+        em.focus();
+        return;
+      }
+      go.disabled = true;
+      say(OPENING);
+
+      fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, tier: 'pro' })
+      })
+        .then(function (r) {
+          // A 503 still carries a JSON body; a crashed proxy may not. Never let a parse error
+          // surface as a raw exception on a blank page.
+          return r.json().then(function (j) { return { status: r.status, body: j || {} }; },
+                               function () { return { status: r.status, body: {} }; });
+        })
+        .then(function (res) {
+          var url = res.body.url;
+          // https only. The one thing we do with this value is navigate to it, so a non-https
+          // string (or anything odd a broken proxy injected) is refused rather than followed.
+          if (res.status === 200 && typeof url === 'string' && url.indexOf('https://') === 0) {
+            say(OPENING, '#5fd08a');
+            window.location.assign(url);
+            return;   // deliberately NOT re-enabling: the page is navigating, and a second
+          }           // click here is a second checkout session.
+          if (res.status === 503) {
+            // The service returns 503 when no price (or no Stripe key) is configured. Its own
+            // wording names env vars — that is for the operator, not the buyer, so it is not shown.
+            fallBackToEmail('Card payment isn\'t switched on yet.');
+          } else {
+            fallBackToEmail('The payment page could not be created just now.');
+          }
+        })
+        .catch(function () {
+          fallBackToEmail('Could not reach the server.');
+        });
+    });
+  })();
+/* MW_CARD_CHECKOUT_END */
+</script>
+
+<script>
+  // Device auto-detection — nobody should download or pay only to find it doesn't fit.
+  // The engine runs on a COMPUTER (Mac or Windows); the phone is the remote.
+  (function () {
+    var ua = navigator.userAgent, mt = navigator.maxTouchPoints || 0;
+    var isIOS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && mt > 1);
+    var isAndroid = /Android/.test(ua);
+    var isPhone = isIOS || isAndroid;
+    var isWin = /Windows/.test(ua);
+    var isMac = /Macintosh|Mac OS X/.test(ua) && !isIOS;
+    var isLinux = /Linux/.test(ua) && !isAndroid;
+    var dev = isPhone ? 'phone' : isWin ? 'windows' : isMac ? 'mac' : isLinux ? 'linux' : 'unknown';
+    window.__MW_DEVICE__ = dev;
+    var ready = (dev === 'mac' || dev === 'windows');
+    window.__MW_INTENT__ = ready ? 'payid' : ('notify-' + dev);
+    var DMG = 'https://github.com/AXD-dev01/mastward/releases/latest/download/Mastward_aarch64.dmg';
+    var EXE = 'https://github.com/AXD-dev01/mastward/releases/latest/download/Mastward_1.3.0_x64-setup.exe';
+    var APK = 'https://github.com/AXD-dev01/mastward/releases/latest/download/app-release.apk';
+
+    var B = {
+      mac:     { cta: ['⬇ Download for Mac (v1.3.0)', DMG],     msg: "<b>You're on a Mac.</b> Download Mastward v1.3.0, open it — the engine starts itself and guides you in plain English. Then drive it from your iPhone or Android." },
+      windows: { cta: ['⬇ Download for Windows (v1.3.0)', EXE], msg: "<b>You're on Windows.</b> Download Mastward v1.3.0 (<code>.exe</code>), install it — the engine starts itself on your PC, and your phone drives it over your network." },
+      linux:   { cta: ['🔔 Notify me — Linux build', '#buy'],   msg: "<b>You're on Linux.</b> Engine on your box, phone as the remote. The Linux desktop package is in progress — get notified below." },
+      phone:   { cta: isAndroid ? ['⬇ Download Android App (v1.3.0)', APK] : ['See downloads (v1.3.0)', '#download'], msg: "<b>You're on a phone — the remote for your computer.</b> ① Install Mastward v1.3.0 on your <b>Mac or Windows PC</b>. ② Install the Mastward app on this phone and tap <b>Connect</b>." },
+      unknown: { cta: ['See downloads (v1.3.0)', '#download'],   msg: "Mastward v1.3.0 runs on your <b>Mac or Windows PC</b> and you drive it from your iPhone, iPad, or Android." }
+    };
+    var b = B[dev] || B.unknown;
+    var btn = document.getElementById('dl-primary'), banner = document.getElementById('smart-banner');
+    if (btn) { btn.textContent = b.cta[0]; btn.setAttribute('href', b.cta[1]); }
+    if (banner) { banner.innerHTML = b.msg; banner.style.display = 'block'; }
+
+    // adapt the email form when the visitor's platform isn't downloadable yet
+    if (!ready) {
+      var h = document.getElementById('buy-h2'), s = document.getElementById('buy-sub'), g = document.getElementById('buy-go');
+      if (h) h.textContent = 'Get the right build';
+      if (s) s.innerHTML = "Mastward needs a <b>computer</b> to run the engine. Leave your email and we'll send the correct download the moment it's ready — <b>no charge until it actually works for you</b>.";
+      if (g) g.textContent = 'Notify me when ready';
+      // Take the card button away: there is nothing for this visitor to run yet, and the line
+      // directly above promises no charge until there is. The notify path becomes the only action.
+      var cardBtn = document.getElementById('buy-card'), mh = document.getElementById('buy-manual-h');
+      if (cardBtn) cardBtn.style.display = 'none';
+      if (g) g.className = 'btn primary';
+      // the contact route stays — only its lead line, which assumes a card button, is corrected
+      if (mh) mh.textContent = 'Prefer to email us?';
+    }
+  })();
+</script>
+
+<footer>
+  <div class="wrap">
+    <p><b class="mono" style="color:var(--primary)">Mastward</b> — a sovereign product. Your data stays on your machines.</p>
+    <p style="margin-top:10px"><a href="./privacy.html">Privacy</a> · <a href="./eula.html">Licence</a> · No analytics, no telemetry, no account.</p>
+    <p style="margin-top:10px;opacity:.6">Security is layered defense, not a guarantee — we never claim "unhackable." Designed by Diego Nanini · © 2026 Diego Nanini · AXD Intelligence.</p>
+  </div>
+</footer>
+
+</body>
+</html>

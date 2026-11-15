@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mastward for Teams — AI coding agents whose source never leaves your infrastructure</title>
+<meta name="description" content="Let your engineers drive Claude Code, Codex, Gemini and local models from any device — while your source code stays on infrastructure you control. Vendor-neutral, audit-logged, self-hostable." />
+<style>
+  :root { --bg:#0a0a0c; --card:#141417; --line:rgba(255,255,255,.07); --txt:#f4f4f5; --dim:#a1a1aa; --primary:#ff9d00; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--txt); font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+  a { color:var(--primary); text-decoration:none; }
+  .wrap { max-width:1000px; margin:0 auto; padding:0 24px; }
+  .pill { display:inline-block; font-size:12px; font-weight:800; letter-spacing:.15em; text-transform:uppercase; color:var(--primary); background:rgba(255,157,0,.08); border:1px solid rgba(255,157,0,.2); padding:8px 16px; border-radius:999px; }
+  h1 { font-size:clamp(32px,5vw,56px); font-weight:900; letter-spacing:-.02em; line-height:1.08; margin:26px 0 18px; }
+  h1 .g { color:var(--primary); }
+  .lede { font-size:clamp(17px,2.2vw,21px); color:var(--dim); max-width:720px; }
+  header.hero { padding:80px 0 50px; background:radial-gradient(1100px 480px at 50% -10%, rgba(255,157,0,.10), transparent 60%); }
+  section { padding:56px 0; border-top:1px solid var(--line); }
+  h2 { font-size:clamp(24px,3vw,34px); font-weight:900; letter-spacing:-.01em; margin-bottom:14px; }
+  .sub { color:var(--dim); margin-bottom:34px; max-width:680px; }
+  .grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:28px; }
+  .card h3 { font-size:18px; font-weight:800; margin-bottom:8px; }
+  .card p { color:var(--dim); font-size:15px; }
+  .ico { font-size:24px; margin-bottom:14px; }
+  table { width:100%; border-collapse:collapse; margin-top:18px; font-size:15px; }
+  th,td { text-align:left; padding:14px 12px; border-bottom:1px solid var(--line); }
+  th { color:var(--primary); font-size:12px; letter-spacing:.1em; text-transform:uppercase; }
+  td.no { color:#ef6f6f; } td.yes { color:#5fd08a; font-weight:700; }
+  .cta { display:flex; gap:14px; flex-wrap:wrap; margin-top:30px; }
+  .btn { font-weight:800; font-size:15px; padding:15px 26px; border-radius:14px; border:1px solid var(--line); display:inline-flex; gap:8px; }
+  .btn.primary { background:var(--primary); color:#000; border-color:var(--primary); }
+  .tiers { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+  .tier { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:30px; }
+  .tier.feature { border-color:rgba(255,157,0,.35); }
+  .tier .amt { font-size:26px; font-weight:900; margin:6px 0 10px; }
+  .tier ul { list-style:none; margin:14px 0; display:grid; gap:9px; }
+  .tier li { color:var(--dim); font-size:14px; padding-left:22px; position:relative; }
+  .tier li::before { content:"✓"; color:var(--primary); position:absolute; left:0; font-weight:900; }
+  footer { padding:44px 0; border-top:1px solid var(--line); color:var(--dim); font-size:13px; }
+  .back { font-size:14px; }
+  .note { font-size:13px; color:var(--dim); margin-top:14px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <a class="back" href="./index.html">← Mastward</a>
+    <div style="margin-top:24px"></div>
+    <span class="pill">For teams &amp; regulated organisations</span>
+    <h1>AI coding agents.<br><span class="g">Your source never touches a vendor cloud.</span></h1>
+    <p class="lede">Cursor, Claude Code Remote and Codex are brilliant — and they send your repository to someone else's servers. For regulated, IP-sensitive and air-gapped teams that's a non-starter. Mastward gives your engineers the same "drive the agent from your phone" workflow, but the agent runs on infrastructure <b style="color:#f4f4f5">you</b> control, and the code stays there.</p>
+    <div class="cta">
+      <a class="btn primary" href="#contact">Book a walkthrough</a>
+      <a class="btn" href="#how">How it stays in-boundary</a>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <h2>The problem with cloud agents</h2>
+    <p class="sub">The mobile-agent pattern is now standard — but every mainstream option routes your source through a vendor's cloud to do it.</p>
+    <div class="grid">
+      <div class="card"><div class="ico">📤</div><h3>Source leaves the building</h3><p>Repository contents are uploaded to the vendor to give the agent context. For finance, defence, health, legal and gov, that breaks data-residency and IP controls.</p></div>
+      <div class="card"><div class="ico">🔒</div><h3>Single-vendor lock-in</h3><p>The mobile app only drives <i>that</i> vendor's agent. You can't standardise one control plane across Claude, Codex, Gemini and in-house models.</p></div>
+      <div class="card"><div class="ico">📃</div><h3>No clean audit story</h3><p>Who ran which agent against which repo, from which device, when? With a third-party cloud in the path, the answer lives in someone else's logs.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>How Mastward keeps it in-boundary</h2>
+    <p class="sub">The agent executes on your own host (developer workstation, on-prem box, or your private cloud). Mastward is the control plane — it never adds a cloud hop of ours.</p>
+    <div class="grid">
+      <div class="card"><div class="ico">🏛️</div><h3>Runs on your infra</h3><p>Self-host the engine on hardware or a tenancy you own. The repo and the agent stay inside your boundary; Mastward has no relay server in the path.</p></div>
+      <div class="card"><div class="ico">🤖</div><h3>Vendor-neutral</h3><p>One cockpit for Claude Code, Codex, Gemini, Aider and local Ollama models. Standardise the workflow without standardising the vendor.</p></div>
+      <div class="card"><div class="ico">🔑</div><h3>Per-device access + revoke</h3><p>Every device is a named, revocable key. Lose a laptop, revoke it instantly. No shared accounts, no vendor identity provider required.</p></div>
+      <div class="card"><div class="ico">📊</div><h3>Audit log</h3><p>Who, what agent, which host, which device, when — recorded in your own audit trail, on your own storage.</p></div>
+      <div class="card"><div class="ico">🛡️</div><h3>Secret-masking</h3><p>Real-time masking of known secrets in terminal output (best-effort defense-in-depth, not a guarantee).</p></div>
+      <div class="card"><div class="ico">📵</div><h3>Air-gap friendly</h3><p>Works on your own network, or a fully offline network. No outbound dependency to use it.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <h2>Where the source code goes</h2>
+    <table>
+      <tr><th>Approach</th><th>Drive from phone</th><th>Source stays in your boundary</th><th>Multi-vendor</th></tr>
+      <tr><td>Cloud agent mobile app (Codex / Claude Code Remote)</td><td class="yes">Yes</td><td class="no">No — uploaded to vendor</td><td class="no">No — one vendor</td></tr>
+      <tr><td>Cloud IDE / web agent</td><td class="yes">Yes</td><td class="no">No — on vendor servers</td><td class="no">Usually one</td></tr>
+      <tr><td><b style="color:var(--txt)">Mastward (self-hosted)</b></td><td class="yes">Yes</td><td class="yes">Yes — on your host</td><td class="yes">Yes — any agent</td></tr>
+    </table>
+    <p class="note">Comparison is on architecture (where execution and source live), not on agent quality. Mastward drives the same agents you already use — it changes <i>where</i> they run, not <i>which</i> you pick.</p>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <h2>Team &amp; Enterprise</h2>
+    <p class="sub">Individuals buy Pro once. Teams and regulated orgs license per-seat or annually — for support, SSO, audit and SLA.</p>
+    <div class="tiers">
+      <div class="tier">
+        <span class="pill">Team</span>
+        <div class="amt">Per-seat / annual</div>
+        <ul>
+          <li>Everything in Pro, for every engineer</li>
+          <li>Shared host registry + role-based controls</li>
+          <li>Central audit log + token-rotation policy</li>
+          <li>Priority support</li>
+        </ul>
+      </div>
+      <div class="tier feature">
+        <span class="pill">Enterprise</span>
+        <div class="amt">Custom</div>
+        <ul>
+          <li>Self-hosted engine in your tenancy / on-prem</li>
+          <li>SSO / SCIM, policy enforcement, audit export</li>
+          <li>Air-gapped &amp; data-residency deployments</li>
+          <li>Security review pack + SLA</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">Pricing scoped per deployment. Recurring is standard at this tier (support + SLA) — the individual sovereign app stays buy-once.</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2>Talk to us</h2>
+    <p class="sub">Tell us your stack (which agents, on-prem vs private cloud, compliance regime) and we'll map a deployment.</p>
+    <div class="cta">
+      <a class="btn primary" href="mailto:support@axdintelligence.com.au?subject=Mastward%20for%20Teams">Email us</a>
+      <a class="btn" href="./index.html">Try the free app</a>
+    </div>
+    <p class="note">Replace the contact address before publishing.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><b class="g" style="color:var(--primary)">Mastward for Teams</b> — the same agents, on infrastructure you control. Designed by Diego Nanini · © 2026 Diego Nanini · AXD Intelligence.</p>
+    <p style="margin-top:8px">Security measures are layered defense, not guarantees — we describe what the product does, never "unhackable." <a href="./privacy.html">Privacy</a> · <a href="./eula.html">Licence</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
